@@ -1,0 +1,927 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{tp stat}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{math}
+        \PY{k+kn}{import} \PY{n+nn}{time}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+        \PY{n}{sns}\PY{o}{.}\PY{n}{set\PYZus{}style}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{whitegrid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}251}]:}                                             \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{l+s+sd}{            Fonction qui permet de diviser un echantillon de taille n entre 0 et 1 }
+          \PY{l+s+sd}{                                            \PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{k}{def} \PY{n+nf}{xfrange}\PY{p}{(}\PY{n}{start}\PY{p}{,} \PY{n}{stop}\PY{p}{,} \PY{n}{step}\PY{p}{)}\PY{p}{:}
+              \PY{n}{index} \PY{o}{=} \PY{l+m+mi}{0}
+              \PY{k}{while} \PY{n}{start} \PY{o}{+} \PY{n}{index} \PY{o}{*} \PY{n}{step} \PY{o}{\PYZlt{}} \PY{n}{stop}\PY{p}{:}
+                  \PY{k}{yield} \PY{n}{start} \PY{o}{+} \PY{n}{index} \PY{o}{*} \PY{n}{step}
+                  \PY{n}{index} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{tab\PYZus{}n} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10000} \PY{p}{,} \PY{l+m+mi}{110000}\PY{p}{,}\PY{l+m+mi}{10000}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}liste du nombres a considerer par echantillon [10000,100000, ...]}
+\end{Verbatim}
+
+    \section{1.1) Simulation par Monte
+Carlo}\label{simulation-par-monte-carlo}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:}                                             \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{l+s+sd}{                                    Fonction a approcher}
+        \PY{l+s+sd}{                                            \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{k}{def} \PY{n+nf}{f}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:} 
+            \PY{k}{return} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}253}]:} \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+          \PY{n}{interval\PYZus{}inf} \PY{o}{=} \PY{l+m+mi}{0}
+          \PY{n}{interval\PYZus{}sup} \PY{o}{=} \PY{l+m+mi}{1}
+          
+          \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{tab\PYZus{}n}\PY{p}{:}
+          
+              \PY{n}{start} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              \PY{n}{surface}    \PY{o}{=} \PY{l+m+mi}{0}
+              \PY{n}{dx}         \PY{o}{=} \PY{p}{(}\PY{n}{interval\PYZus{}sup} \PY{o}{\PYZhy{}} \PY{n}{interval\PYZus{}inf}\PY{p}{)} \PY{o}{/} \PY{n}{n} 
+              \PY{n}{xi\PYZus{}simule}  \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{xfrange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{dx}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{xi\PYZus{}simule}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{f}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{*}\PY{n}{dx}\PY{p}{)}
+                  \PY{n}{surface} \PY{o}{=} \PY{n}{surface} \PY{o}{+} \PY{n}{f}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{*}\PY{n}{dx} 
+                  
+              \PY{n}{end}          \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              \PY{n}{moyenne\PYZus{}emp}  \PY{o}{=} \PY{n}{surface}
+              \PY{n}{surface}      \PY{o}{=} \PY{n}{surface}\PY{o}{*}\PY{l+m+mi}{4}
+              
+              \PY{n}{erreur\PYZus{}abs}   \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{pi}\PY{o}{\PYZhy{}} \PY{n}{surface}\PY{p}{)}\PY{o}{/} \PY{n}{math}\PY{o}{.}\PY{n}{pi} \PY{p}{)}
+              
+              \PY{n}{variance}     \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{,} \PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+              \PY{n}{ecart\PYZus{}type}   \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance}\PY{p}{)}
+              \PY{n}{cinterval\PYZus{}inf} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{cinterval\PYZus{}sup} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{+}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{confidence} \PY{o}{=} \PY{p}{[}\PY{n}{interval\PYZus{}inf}\PY{p}{,}\PY{n}{interval\PYZus{}sup}\PY{p}{]}
+              
+              \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}
+                    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Monte Carlo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{start}\PY{o}{\PYZhy{}}\PY{n}{end}\PY{p}{)}\PY{p}{,}\PY{n}{surface}\PY{p}{,}\PY{n}{math}\PY{o}{.}\PY{n}{pi}\PY{p}{,}\PY{n}{erreur\PYZus{}abs}\PY{p}{,}\PY{n}{ecart\PYZus{}type}\PY{p}{,}\PY{n}{confidence}
+               \PY{p}{]}\PY{p}{)}
+              
+          \PY{n}{df\PYZus{}monte\PYZus{}carlo} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{methode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. approchée}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                                      \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. réelle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ecart\PYZhy{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{interval de conf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}254}]:} \PY{n}{df\PYZus{}monte\PYZus{}carlo}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}254}]:}        methode       n  temps ecoulé  val. approchée  val. réelle  \textbackslash{}
+          0  Monte Carlo   10000      0.015010        3.141791     3.141593   
+          1  Monte Carlo   20000      0.027501        3.141692     3.141593   
+          2  Monte Carlo   30000      0.040032        3.141659     3.141593   
+          3  Monte Carlo   40000      0.052530        3.141643     3.141593   
+          4  Monte Carlo   50000      0.064049        3.141633     3.141593   
+          5  Monte Carlo   60000      0.078043        3.141626     3.141593   
+          6  Monte Carlo   70000      0.090564        3.141621     3.141593   
+          7  Monte Carlo   80000      0.102572        3.141618     3.141593   
+          8  Monte Carlo   90000      0.113580        3.141615     3.141593   
+          9  Monte Carlo  100000      0.126589        3.141613     3.141593   
+          
+             erreur relative  ecart-type interval de conf  
+          0         0.000063   78.536932           [0, 1]  
+          1         0.000032  111.070041           [0, 1]  
+          2         0.000021  136.033295           [0, 1]  
+          3         0.000016  157.078198           [0, 1]  
+          4         0.000013  175.619086           [0, 1]  
+          5         0.000011  192.381304           [0, 1]  
+          6         0.000009  207.795739           [0, 1]  
+          7         0.000008  222.143134           [0, 1]  
+          8         0.000007  235.618494           [0, 1]  
+          9         0.000006  248.363801           [0, 1]  
+\end{Verbatim}
+        
+    \section{1.2) Simulation par jet
+aléatoire}\label{simulation-par-jet-aluxe9atoire}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}255}]:} \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+          \PY{n}{start} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+          \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{tab\PYZus{}n}\PY{p}{:}
+              \PY{n}{cpt} \PY{o}{=} \PY{l+m+mf}{0.0}
+              \PY{n}{xi\PYZus{}simule} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{x} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+                  \PY{n}{y} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+                  \PY{k}{if}\PY{p}{(} \PY{n}{x}\PY{o}{*}\PY{n}{x}\PY{o}{+}\PY{n}{y}\PY{o}{*}\PY{n}{y} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+                      \PY{n}{cpt} \PY{o}{=} \PY{n}{cpt}\PY{o}{+}\PY{l+m+mi}{1}
+                      \PY{n}{xi\PYZus{}simule}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+                      
+              \PY{n}{end}        \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              
+              \PY{n}{surface}    \PY{o}{=} \PY{n}{cpt}\PY{o}{*}\PY{l+m+mi}{4}\PY{o}{/}\PY{n}{n}
+              \PY{n}{erreur\PYZus{}abs} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{pi}\PY{o}{\PYZhy{}} \PY{n}{surface}\PY{p}{)}\PY{o}{/} \PY{n}{math}\PY{o}{.}\PY{n}{pi}\PY{p}{)}
+              
+              \PY{n}{moyenne\PYZus{}emp} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{n}{cpt}
+              \PY{n}{variance}     \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{,} \PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+              \PY{n}{ecart\PYZus{}type}   \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance}\PY{p}{)}
+              
+              \PY{n}{cinterval\PYZus{}inf} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{cinterval\PYZus{}sup} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{+}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{confidence} \PY{o}{=} \PY{p}{[}\PY{n}{interval\PYZus{}inf}\PY{p}{,}\PY{n}{interval\PYZus{}sup}\PY{p}{]}
+              
+              \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}
+                    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Jet aléatoire}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{start}\PY{o}{\PYZhy{}}\PY{n}{end}\PY{p}{)}\PY{p}{,}\PY{n}{surface}\PY{p}{,}\PY{n}{math}\PY{o}{.}\PY{n}{pi}\PY{p}{,}\PY{n}{erreur\PYZus{}abs}\PY{p}{,}\PY{n}{ecart\PYZus{}type}\PY{p}{,}\PY{n}{confidence}
+               \PY{p}{]}\PY{p}{)}
+              
+          \PY{n}{df\PYZus{}jet\PYZus{}aleatoire} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{methode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. approchée}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. réelle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ecart\PYZhy{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{interval de conf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}256}]:} \PY{n}{df\PYZus{}jet\PYZus{}aleatoire}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}256}]:}          methode       n  temps ecoulé  val. approchée  val. réelle  \textbackslash{}
+          0  Jet aléatoire   10000      0.013012        3.113600     3.141593   
+          1  Jet aléatoire   20000      0.041534        3.121400     3.141593   
+          2  Jet aléatoire   30000      0.081552        3.136000     3.141593   
+          3  Jet aléatoire   40000      0.132593        3.137500     3.141593   
+          4  Jet aléatoire   50000      0.198137        3.134240     3.141593   
+          5  Jet aléatoire   60000      0.276181        3.145200     3.141593   
+          6  Jet aléatoire   70000      0.366253        3.130000     3.141593   
+          7  Jet aléatoire   80000      0.470827        3.132950     3.141593   
+          8  Jet aléatoire   90000      0.588910        3.133422     3.141593   
+          9  Jet aléatoire  100000      0.720519        3.137800     3.141593   
+          
+             erreur relative  ecart-type interval de conf  
+          0         0.008910   17.249344           [0, 1]  
+          1         0.006428   24.240169           [0, 1]  
+          2         0.001780   29.331241           [0, 1]  
+          3         0.001303   33.826172           [0, 1]  
+          4         0.002340   37.922310           [0, 1]  
+          5         0.001148   41.159342           [0, 1]  
+          6         0.003690   45.029034           [0, 1]  
+          7         0.002751   48.020051           [0, 1]  
+          8         0.002601   50.912889           [0, 1]  
+          9         0.001207   53.470383           [0, 1]  
+\end{Verbatim}
+        
+    \section{1.3) Comparaison des methodes}\label{comparaison-des-methodes}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}257}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{} }
+          
+          \PY{l+s+sd}{VITESSE D\PYZsq{}APPROXIMATION  }
+          
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{df\PYZus{}jet\PYZus{}aleatoire}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{df\PYZus{}jet\PYZus{}aleatoire}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN BLEU}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{df\PYZus{}monte\PYZus{}carlo}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{df\PYZus{}jet\PYZus{}aleatoire}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN VERT}
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{l+s+sd}{    On remarque dans ce graphe que la methode de monte carlo est beaucoup plus rapide que le comptage aléatoire}
+          \PY{l+s+sd}{    }
+          \PY{l+s+sd}{    EN X: le temps ecoulé }
+          \PY{l+s+sd}{    EN Y: le nombre d\PYZsq{}individus pour chaque echantillon}
+          
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}257}]:} "\textbackslash{}n    On remarque dans ce graphe que la methode de monte carlo est beaucoup plus rapide que le comptage aléatoire\textbackslash{}n    \textbackslash{}n    EN X: le temps ecoulé \textbackslash{}n    EN Y: le nombre d'individus pour chaque echantillon\textbackslash{}n\textbackslash{}n"
+\end{Verbatim}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{tp stat_files/tp stat_12_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}270}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{} }
+          
+          \PY{l+s+sd}{PRECISION DE CONVERGENCE }
+          
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tab\PYZus{}n}\PY{p}{,}\PY{n}{df\PYZus{}jet\PYZus{}aleatoire}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN BLEU L\PYZdq{}ALEATOIRE}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tab\PYZus{}n}\PY{p}{,}\PY{n}{df\PYZus{}monte\PYZus{}carlo}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN VERT POUR MONTE\PYZus{}CARLO}
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{l+s+sd}{    On remarque dans ce graphe que la methode de monte carlo est beaucoup plus précise que le comptage aléatoire}
+          \PY{l+s+sd}{        }
+          \PY{l+s+sd}{    EN X: le nombre d\PYZsq{}individus pour chaque echantillon}
+          \PY{l+s+sd}{    EN Y: le ratio d\PYZsq{}erreur relative}
+          
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}270}]:} "\textbackslash{}n    On remarque dans ce graphe que la methode de monte carlo est beaucoup plus précise que le comptage aléatoire\textbackslash{}n        \textbackslash{}n    EN X: le nombre d'individus pour chaque echantillon\textbackslash{}n    EN Y: le ratio d'erreur relative\textbackslash{}n\textbackslash{}n"
+\end{Verbatim}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{tp stat_files/tp stat_13_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{2.1) Simulation de loi
+normale}\label{simulation-de-loi-normale}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}260}]:} \PY{n}{val}   \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+          \PY{n}{probs} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.10}\PY{p}{,}\PY{l+m+mf}{0.20}\PY{p}{,}\PY{l+m+mf}{0.25}\PY{p}{,}\PY{l+m+mf}{0.45}\PY{p}{]}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}261}]:} \PY{n}{esperance\PYZus{}par\PYZus{}xi\PYZus{}reel} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{:}\PY{n}{x}\PY{o}{*}\PY{n}{y}\PY{p}{,}\PY{n}{val}\PY{p}{,}\PY{n}{probs}\PY{p}{)}\PY{p}{)}
+          \PY{n}{esperance\PYZus{}reel}        \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{esperance\PYZus{}par\PYZus{}xi\PYZus{}reel}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}262}]:} \PY{k}{def} \PY{n+nf}{returnX}\PY{p}{(}\PY{n}{prob}\PY{p}{,}\PY{n}{probs}\PY{p}{,}\PY{n}{val}\PY{p}{)}\PY{p}{:}
+              \PY{n}{stack} \PY{o}{=} \PY{l+m+mi}{0}
+              \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{probs}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{stack} \PY{o}{+}\PY{o}{=} \PY{n}{probs}\PY{p}{[}\PY{n}{i}\PY{p}{]} 
+                  \PY{k}{if} \PY{n}{prob} \PY{o}{\PYZlt{}} \PY{n}{stack}\PY{p}{:}
+                      \PY{k}{return} \PY{n}{val}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+              \PY{k}{return} \PY{n}{val}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n}{probs}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}263}]:} \PY{k}{def} \PY{n+nf}{returnX\PYZus{}reverse}\PY{p}{(}\PY{n}{prob}\PY{p}{,}\PY{n}{probs}\PY{p}{,}\PY{n}{val}\PY{p}{)}\PY{p}{:}
+              \PY{n}{stack} \PY{o}{=} \PY{l+m+mi}{1}
+              \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{probs}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{stack} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{n}{probs}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+                  \PY{k}{if} \PY{n}{prob} \PY{o}{\PYZgt{}} \PY{n}{stack}\PY{p}{:}
+                      \PY{k}{return} \PY{n}{val}\PY{p}{[}\PY{n}{i}\PY{p}{]}    
+              \PY{k}{return} \PY{n}{val}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                  
+\end{Verbatim}
+
+    \subsubsection{2.1.1) loi normale en considerant les proba
+croissantes}\label{loi-normale-en-considerant-les-proba-croissantes}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}264}]:} \PY{n}{esperance\PYZus{}reel} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{esperance\PYZus{}par\PYZus{}xi\PYZus{}reel}\PY{p}{)}
+          \PY{n}{data}           \PY{o}{=} \PY{p}{[}\PY{p}{]}
+          
+          \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{tab\PYZus{}n}\PY{p}{:}    
+              \PY{n}{xi\PYZus{}simule} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{n}{start} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              
+              \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{u} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+                  \PY{n}{x} \PY{o}{=} \PY{n}{returnX}\PY{p}{(}\PY{n}{u}\PY{p}{,}\PY{n}{probs}\PY{p}{,}\PY{n}{val}\PY{p}{)}
+                  \PY{n}{xi\PYZus{}simule}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+           
+              \PY{n}{end}          \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              
+              \PY{n}{moyenne\PYZus{}emp}  \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n} \PY{o}{*} \PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}
+              \PY{n}{variance}     \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{,} \PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+              \PY{n}{ecart\PYZus{}type}   \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance}\PY{p}{)}
+              \PY{n}{erreur\PYZus{}abs}   \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(} \PY{p}{(}\PY{n}{esperance\PYZus{}reel} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{)} \PY{o}{/} \PY{n}{esperance\PYZus{}reel}\PY{p}{)}
+              
+              \PY{n}{cinterval\PYZus{}inf} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{cinterval\PYZus{}sup} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{+}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{confidence} \PY{o}{=} \PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}inf}\PY{p}{)}\PY{p}{,}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}sup}\PY{p}{)}\PY{p}{]}
+              
+              \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}
+                    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{random de v.a iid}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{start}\PY{o}{\PYZhy{}}\PY{n}{end}\PY{p}{)}\PY{p}{,}\PY{n}{moyenne\PYZus{}emp}\PY{p}{,}\PY{n}{esperance\PYZus{}reel}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{erreur\PYZus{}abs}\PY{p}{)}\PY{p}{,}\PY{n}{ecart\PYZus{}type}\PY{p}{,}\PY{n}{confidence}
+              \PY{p}{]}\PY{p}{)}
+              
+          \PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{methode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. approchée}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. réelle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ecart\PYZhy{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{interval de conf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+          
+              \PY{c+c1}{\PYZsh{}results.append([\PYZdq{}Monte\PYZhy{}Carlo\PYZdq{},n,end\PYZhy{}start,erreur\PYZus{}abs,ecart\PYZus{}type,\PYZdq{}\PYZdq{}])}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}265}]:} \PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}265}]:}              methode       n  temps ecoulé  val. approchée  val. réelle  \textbackslash{}
+          0  random de v.a iid   10000      0.013510        3.053400         3.05   
+          1  random de v.a iid   20000      0.028023        3.044500         3.05   
+          2  random de v.a iid   30000      0.041541        3.051267         3.05   
+          3  random de v.a iid   40000      0.055040        3.053650         3.05   
+          4  random de v.a iid   50000      0.070553        3.056180         3.05   
+          5  random de v.a iid   60000      0.083549        3.053767         3.05   
+          6  random de v.a iid   70000      0.095567        3.049214         3.05   
+          7  random de v.a iid   80000      0.108577        3.045288         3.05   
+          8  random de v.a iid   90000      0.123620        3.050411         3.05   
+          9  random de v.a iid  100000      0.137607        3.049490         3.05   
+          
+             erreur relative    ecart-type                          interval de conf  
+          0         0.001115  6.382450e-14   [3.053399999999999, 3.0534000000000017]  
+          1         0.001803  9.117841e-14   [3.044499999999999, 3.0445000000000015]  
+          2         0.000415  2.392678e-13   [3.051266666666664, 3.0512666666666695]  
+          3         0.001197  6.428902e-13   [3.053649999999994, 3.0536500000000064]  
+          4         0.002026  1.686256e-13   [3.056179999999999, 3.0561800000000017]  
+          5         0.001235  1.051480e-12   [3.0537666666666583, 3.053766666666675]  
+          6         0.000258  1.914693e-12     [3.0492142857142714, 3.0492142857143]  
+          7         0.001545  8.194313e-14  [3.0452874999999997, 3.0452875000000006]  
+          8         0.000135  3.217486e-13   [3.050411111111109, 3.0504111111111136]  
+          9         0.000167  1.268047e-12    [3.049489999999992, 3.049490000000008]  
+\end{Verbatim}
+        
+    \subsubsection{2.1.2) loi normale en mesurant les proba
+décroissantes}\label{loi-normale-en-mesurant-les-proba-duxe9croissantes}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}266}]:} \PY{n}{esperance\PYZus{}reel} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{esperance\PYZus{}par\PYZus{}xi\PYZus{}reel}\PY{p}{)}
+          \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+          
+          \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{tab\PYZus{}n}\PY{p}{:}    
+              \PY{n}{xi\PYZus{}simule} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+              \PY{n}{start} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              
+              \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{u} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+                  \PY{n}{x} \PY{o}{=} \PY{n}{returnX\PYZus{}reverse}\PY{p}{(}\PY{n}{u}\PY{p}{,}\PY{n}{probs}\PY{p}{,}\PY{n}{val}\PY{p}{)}
+                  \PY{n}{xi\PYZus{}simule}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+           
+              \PY{n}{end}          \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+              
+              \PY{n}{moyenne\PYZus{}emp}  \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n} \PY{o}{*} \PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}
+              \PY{n}{variance}     \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{,} \PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+              \PY{n}{ecart\PYZus{}type}   \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance}\PY{p}{)}
+              \PY{n}{erreur\PYZus{}abs}   \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(} \PY{p}{(}\PY{n}{esperance\PYZus{}reel} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{)} \PY{o}{/} \PY{n}{esperance\PYZus{}reel}\PY{p}{)}
+              
+              \PY{n}{cinterval\PYZus{}inf} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{cinterval\PYZus{}sup} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{+}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+              \PY{n}{confidence} \PY{o}{=} \PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}inf}\PY{p}{)}\PY{p}{,}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}sup}\PY{p}{)}\PY{p}{]}
+              
+              \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}
+                    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{random de v.a iid}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{start}\PY{o}{\PYZhy{}}\PY{n}{end}\PY{p}{)}\PY{p}{,}\PY{n}{moyenne\PYZus{}emp}\PY{p}{,}\PY{n}{esperance\PYZus{}reel}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{erreur\PYZus{}abs}\PY{p}{)}\PY{p}{,}\PY{n}{ecart\PYZus{}type}\PY{p}{,}\PY{n}{confidence}
+              \PY{p}{]}\PY{p}{)}
+              
+          \PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue\PYZus{}reverse} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{methode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. approchée}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. réelle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ecart\PYZhy{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{interval de conf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}267}]:} \PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue\PYZus{}reverse}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}267}]:}              methode       n  temps ecoulé  val. approchée  val. réelle  \textbackslash{}
+          0  random de v.a iid   10000      0.015010        3.067400         3.05   
+          1  random de v.a iid   20000      0.029521        3.052350         3.05   
+          2  random de v.a iid   30000      0.045532        3.048967         3.05   
+          3  random de v.a iid   40000      0.058054        3.045550         3.05   
+          4  random de v.a iid   50000      0.074545        3.054800         3.05   
+          5  random de v.a iid   60000      0.087566        3.048900         3.05   
+          6  random de v.a iid   70000      0.101567        3.048257         3.05   
+          7  random de v.a iid   80000      0.115585        3.050938         3.05   
+          8  random de v.a iid   90000      0.130592        3.048867         3.05   
+          9  random de v.a iid  100000      0.147102        3.052910         3.05   
+          
+             erreur relative    ecart-type                          interval de conf  
+          0         0.005705  8.665957e-14   [3.0673999999999984, 3.067400000000002]  
+          1         0.000770  4.760834e-14  [3.0523499999999997, 3.0523500000000006]  
+          2         0.000339  1.783791e-13   [3.0489666666666646, 3.048966666666669]  
+          3         0.001459  1.866840e-13   [3.045549999999998, 3.0455500000000018]  
+          4         0.001574  4.067384e-14  [3.0547999999999997, 3.0548000000000006]  
+          5         0.000361  6.363112e-13   [3.0488999999999953, 3.048900000000005]  
+          6         0.000571  2.668076e-13   [3.048257142857141, 3.0482571428571448]  
+          7         0.000307  5.621685e-13  [3.0509374999999963, 3.0509375000000043]  
+          8         0.000372  1.779252e-12    [3.048866666666655, 3.048866666666678]  
+          9         0.000954  7.108665e-13   [3.052909999999996, 3.0529100000000047]  
+\end{Verbatim}
+        
+    \section{2.3) Comparaison des methodes}\label{comparaison-des-methodes}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}268}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{} }
+          
+          \PY{l+s+sd}{VITESSE D\PYZsq{}APPROXIMATION  }
+          
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{tab\PYZus{}n}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN BLEU}
+          \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue\PYZus{}reverse}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{tab\PYZus{}n}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN VERT}
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{l+s+sd}{    On remarque dans ce graphe que la methode reverse (prob décroissante) est plus lente que le la methode croissante }
+          \PY{l+s+sd}{    vitesse(bleu) \PYZgt{} vitesse(vert)}
+          \PY{l+s+sd}{    }
+          \PY{l+s+sd}{    EN X: le temps ecoulé }
+          \PY{l+s+sd}{    EN Y: le nombre d\PYZsq{}individus pour chaque echantillon}
+          
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}268}]:} "\textbackslash{}n    On remarque dans ce graphe que la methode reverse (prob décroissante) est plus lente que le la methode croissante \textbackslash{}n    \textbackslash{}n    EN X: le temps ecoulé \textbackslash{}n    EN Y: le nombre d'individus pour chaque echantillon\textbackslash{}n\textbackslash{}n"
+\end{Verbatim}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{tp stat_files/tp stat_26_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{} }
+         
+         \PY{l+s+sd}{PRECISION DE CONVERGENCE }
+         
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tab\PYZus{}n}\PY{p}{,}\PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN BLEU loi normale ordered probs}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tab\PYZus{}n}\PY{p}{,}\PY{n}{df\PYZus{}loi\PYZus{}normale\PYZus{}continue\PYZus{}reverse}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{}VERT loi normale reversed probs}
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+         \PY{l+s+sd}{    On remarque dans ce graphe que la methode de monte carlo est beaucoup plus précise que le comptage aléatoire}
+         \PY{l+s+sd}{        }
+         \PY{l+s+sd}{    EN X: le nombre d\PYZsq{}individus pour chaque echantillon}
+         \PY{l+s+sd}{    EN Y: le ratio d\PYZsq{}erreur relative}
+         
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        NameError                                 Traceback (most recent call last)
+
+        <ipython-input-19-41e44da47a16> in <module>()
+          4 
+          5 '''
+    ----> 6 sns.plt.plot(tab\_n,df\_loi\_normale\_continue["erreur relative"]) \# EN BLEU loi normale ordered probs
+          7 sns.plt.plot(tab\_n,df\_loi\_normale\_continue\_reverse["erreur relative"]) \#VERT loi normale reversed probs
+          8 '''
+    
+
+        NameError: name 'df\_loi\_normale\_continue' is not defined
+
+    \end{Verbatim}
+
+    \section{3.1) Simulation de loi géometrique (pseudo inverse de la
+f.d.r)}\label{simulation-de-loi-guxe9ometrique-pseudo-inverse-de-la-f.d.r}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         
+         \PY{n}{q} \PY{o}{=} \PY{l+m+mf}{0.7}
+         \PY{n}{esperance\PYZus{}reel} \PY{o}{=} \PY{n}{q}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{q}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{tab\PYZus{}n}\PY{p}{:}
+             \PY{n}{xi\PYZus{}simule} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+             \PY{n}{stack} \PY{o}{=} \PY{l+m+mi}{0}
+             \PY{n}{start} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+             \PY{k}{for} \PY{n}{index} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{u} \PY{o}{=} \PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+                 \PY{n}{i} \PY{o}{=} \PY{l+m+mi}{1} 
+                 \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+                     \PY{k}{if} \PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{q}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{u} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{q}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                         \PY{k}{break}
+                     \PY{k}{else}\PY{p}{:}
+                         \PY{n}{i}\PY{o}{+}\PY{o}{=}\PY{l+m+mi}{1}
+                 \PY{n}{xi\PYZus{}simule}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{i}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+             \PY{n}{end} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+             \PY{n}{moyenne\PYZus{}emp} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n} \PY{o}{*} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{xi\PYZus{}simule}\PY{p}{)}
+             \PY{n}{variance}     \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{,} \PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+             \PY{n}{ecart\PYZus{}type}   \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance}\PY{p}{)}
+             \PY{n}{erreur\PYZus{}abs}   \PY{o}{=} \PY{p}{(}\PY{n}{esperance\PYZus{}reel} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{)} \PY{o}{/} \PY{n}{esperance\PYZus{}reel}
+             
+             \PY{n}{cinterval\PYZus{}inf} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+             \PY{n}{cinterval\PYZus{}sup} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{+}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+             \PY{n}{confidence} \PY{o}{=} \PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}inf}\PY{p}{)}\PY{p}{,}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}sup}\PY{p}{)}\PY{p}{]}
+             
+             \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}
+                   \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{invers fdr geo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{start}\PY{o}{\PYZhy{}}\PY{n}{end}\PY{p}{)}\PY{p}{,}\PY{n}{moyenne\PYZus{}emp}\PY{p}{,}\PY{n}{esperance\PYZus{}reel}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{erreur\PYZus{}abs}\PY{p}{)}\PY{p}{,}\PY{n}{ecart\PYZus{}type}\PY{p}{,}\PY{n}{confidence}
+             \PY{p}{]}\PY{p}{)}
+             
+         \PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}inv\PYZus{}fdr} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{methode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. approchée}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                                 \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. réelle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ecart\PYZhy{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{interval de conf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}   
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}inv\PYZus{}fdr}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}15}]:}           methode       n  temps ecoulé  val. approchée  val. réelle  \textbackslash{}
+         0  invers fdr geo   10000      0.030033        2.332300     2.333333   
+         1  invers fdr geo   20000      0.060563        2.322300     2.333333   
+         2  invers fdr geo   30000      0.083060        2.335067     2.333333   
+         3  invers fdr geo   40000      0.112580        2.344475     2.333333   
+         4  invers fdr geo   50000      0.139601        2.333440     2.333333   
+         5  invers fdr geo   60000      0.169620        2.360433     2.333333   
+         6  invers fdr geo   70000      0.204654        2.353686     2.333333   
+         7  invers fdr geo   80000      0.231168        2.332613     2.333333   
+         8  invers fdr geo   90000      0.255170        2.342978     2.333333   
+         9  invers fdr geo  100000      0.278206        2.317990     2.333333   
+         
+            erreur relative    ecart-type                          interval de conf  
+         0         0.000443  2.735945e-13  [2.3322999999999947, 2.3323000000000054]  
+         1         0.004729  5.073911e-13   [2.322299999999993, 2.3223000000000074]  
+         2         0.000743  3.579351e-13  [2.3350666666666626, 2.3350666666666706]  
+         3         0.004775  1.595484e-12  [2.3444749999999845, 2.3444750000000156]  
+         4         0.000046  6.985573e-13   [2.333439999999994, 2.3334400000000066]  
+         5         0.011614  9.269075e-14  [2.3604333333333325, 2.3604333333333343]  
+         6         0.008722  1.555734e-13   [2.353685714285713, 2.3536857142857155]  
+         7         0.000309  1.831215e-12   [2.3326124999999873, 2.332612500000013]  
+         8         0.004133  1.809187e-12     [2.342977777777766, 2.34297777777779]  
+         9         0.006576  1.639497e-12      [2.31798999999999, 2.31799000000001]  
+\end{Verbatim}
+        
+    \section{3.2) Simulation de loi géometrique par la formule
+LN}\label{simulation-de-loi-guxe9ometrique-par-la-formule-ln}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{n}{esperance\PYZus{}reel} \PY{o}{=} \PY{n}{q}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{q}\PY{p}{)}
+         \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{tab\PYZus{}n}\PY{p}{:}
+             \PY{n}{xi\PYZus{}simule} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+             
+             \PY{n}{start} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+             
+             \PY{k}{for} \PY{n}{index} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                 
+                 \PY{n}{xi} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{log}\PY{p}{(} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} \PY{p}{)} \PY{p}{)} \PY{o}{/} \PY{n}{math}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{q}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{xi\PYZus{}simule}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{xi}\PY{p}{)}
+             
+             \PY{n}{end} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+             
+             \PY{n}{moyenne\PYZus{}emp} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n} \PY{o}{*} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{xi\PYZus{}simule}\PY{p}{)}
+             \PY{n}{variance}     \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{n}\PY{o}{*}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{,} \PY{n}{xi\PYZus{}simule}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+             \PY{n}{ecart\PYZus{}type}   \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance}\PY{p}{)}
+             \PY{n}{erreur\PYZus{}abs}   \PY{o}{=} \PY{p}{(}\PY{n}{esperance\PYZus{}reel} \PY{o}{\PYZhy{}} \PY{n}{moyenne\PYZus{}emp}\PY{p}{)} \PY{o}{/} \PY{n}{esperance\PYZus{}reel}
+         
+             \PY{n}{cinterval\PYZus{}inf} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+             \PY{n}{cinterval\PYZus{}sup} \PY{o}{=} \PY{n}{moyenne\PYZus{}emp}\PY{o}{+}\PY{p}{(}\PY{l+m+mf}{1.96}\PY{o}{*}\PY{n}{ecart\PYZus{}type}\PY{o}{/}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+             \PY{n}{confidence} \PY{o}{=} \PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}inf}\PY{p}{)}\PY{p}{,}\PY{n+nb}{str}\PY{p}{(}\PY{n}{cinterval\PYZus{}sup}\PY{p}{)}\PY{p}{]}
+             
+             \PY{n}{data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}
+                   \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Loi geo app. par LN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{start}\PY{o}{\PYZhy{}}\PY{n}{end}\PY{p}{)}\PY{p}{,}\PY{n}{moyenne\PYZus{}emp}\PY{p}{,}\PY{n}{esperance\PYZus{}reel}\PY{p}{,}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{erreur\PYZus{}abs}\PY{p}{)}\PY{p}{,}\PY{n}{ecart\PYZus{}type}\PY{p}{,}\PY{n}{confidence}
+             \PY{p}{]}\PY{p}{)}
+             
+         \PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}LN} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{methode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. approchée}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                                 \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val. réelle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ecart\PYZhy{}type}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{interval de conf}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+             
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}LN}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}25}]:}                methode       n  temps ecoulé  val. approchée  val. réelle  \textbackslash{}
+         0  Loi geo app. par LN   10000      0.012511        2.382500     2.333333   
+         1  Loi geo app. par LN   20000      0.023019        2.311450     2.333333   
+         2  Loi geo app. par LN   30000      0.038031        2.347667     2.333333   
+         3  Loi geo app. par LN   40000      0.047080        2.337300     2.333333   
+         4  Loi geo app. par LN   50000      0.058053        2.330640     2.333333   
+         5  Loi geo app. par LN   60000      0.069044        2.353200     2.333333   
+         6  Loi geo app. par LN   70000      0.079063        2.335557     2.333333   
+         7  Loi geo app. par LN   80000      0.091060        2.350975     2.333333   
+         8  Loi geo app. par LN   90000      0.102070        2.325656     2.333333   
+         9  Loi geo app. par LN  100000      0.114081        2.321460     2.333333   
+         
+            erreur relative    ecart-type                          interval de conf  
+         0         0.021071  3.439737e-13   [2.3824999999999936, 2.382500000000007]  
+         1         0.009379  3.609957e-14             [2.31145, 2.3114500000000007]  
+         2         0.006143  2.735530e-13  [2.3476666666666635, 2.3476666666666697]  
+         3         0.001700  1.971316e-12  [2.3372999999999804, 2.3373000000000195]  
+         4         0.001154  5.819735e-13   [2.3306399999999954, 2.330640000000005]  
+         5         0.008514  2.117742e-12   [2.3531999999999833, 2.353200000000017]  
+         6         0.000953  6.230657e-13   [2.3355571428571382, 2.335557142857147]  
+         7         0.007561  6.450756e-13  [2.3509749999999956, 2.3509750000000045]  
+         8         0.003290  2.272641e-13   [2.3256555555555543, 2.325655555555557]  
+         9         0.005089  5.337759e-13    [2.321459999999997, 2.321460000000003]  
+\end{Verbatim}
+        
+    \section{3.3) Comparaison des methodes}\label{comparaison-des-methodes}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{} }
+         
+         \PY{l+s+sd}{VITESSE D\PYZsq{}APPROXIMATION  }
+         
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}inv\PYZus{}fdr}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{tab\PYZus{}n}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN BLEU, inverse de fdr}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}LN}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{temps ecoulé}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{tab\PYZus{}n}\PY{p}{)} \PY{c+c1}{\PYZsh{} EN VERT, ln(1\PYZhy{}q)/ln(q)}
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+         \PY{l+s+sd}{    }
+         \PY{l+s+sd}{    EN X: le temps ecoulé }
+         \PY{l+s+sd}{    EN Y: le nombre d\PYZsq{}individus pour chaque echantillon}
+         
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}27}]:} "\textbackslash{}n    \textbackslash{}n    EN X: le temps ecoulé \textbackslash{}n    EN Y: le nombre d'individus pour chaque echantillon\textbackslash{}n\textbackslash{}n"
+\end{Verbatim}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{tp stat_files/tp stat_35_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{} }
+         
+         \PY{l+s+sd}{PRECISION DE CONVERGENCE }
+         
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tab\PYZus{}n}\PY{p}{,}\PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}inv\PYZus{}fdr}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} EN BLEU, inverse de fdr}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{tab\PYZus{}n}\PY{p}{,}\PY{n}{df\PYZus{}loi\PYZus{}geom\PYZus{}LN}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{erreur relative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} EN VERT, ln(1\PYZhy{}q)/ln(q)}
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+         \PY{l+s+sd}{        }
+         \PY{l+s+sd}{    EN X: le nombre d\PYZsq{}individus pour chaque echantillon}
+         \PY{l+s+sd}{    EN Y: le ratio d\PYZsq{}erreur relative}
+         
+         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}26}]:} "\textbackslash{}n        \textbackslash{}n    EN X: le nombre d'individus pour chaque echantillon\textbackslash{}n    EN Y: le ratio d'erreur relative\textbackslash{}n\textbackslash{}n"
+\end{Verbatim}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{tp stat_files/tp stat_36_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
